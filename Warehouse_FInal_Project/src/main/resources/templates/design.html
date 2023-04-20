@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design form</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+    <style>
+        button.btn.btn-danger {
+                border-radius: 25px; 
+                font-family: 'Montserrat', sans-serif; 
+                font-weight: bold; 
+                text-transform: uppercase; 
+                letter-spacing: 2px; 
+                background-color: #e74c3c;
+                border-color: #e74c3c; 
+                color: #fff; 
+                transition: all 0.3s ease; 
+              }
+              button.btn.btn-light {
+                border-color: #f2c441;
+                font-family: 'Montserrat', sans-serif;
+                border-radius: 25px; 
+                font-weight: bold; 
+                text-transform: uppercase;
+                letter-spacing: 1px; 
+                background-color: #f2c441;
+                color: #fff; 
+                transition: all 0.3s ease;
+                padding: 1.5rem 3rem;
+                border-radius: 50px; 
+              }
+        input.form-control {
+                background-color: #e0b892; 
+                border: none; 
+                border-radius: 0; 
+                font-size: 1.5rem; 
+                font-weight: bold; 
+                color: #444; 
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); 
+   
+              }
+        label.form-label {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #555; 
+                margin-bottom: 0.5rem;
+        }
+        div.form-text{
+                color: #555;
+                margin-bottom: 0.5rem;
+                font-style: italic;
+        }
+        h1.mb-3 {
+                height: 60px;
+                font-family: 'Montserrat', sans-serif; 
+                font-weight: bold; 
+                text-transform: uppercase; 
+                letter-spacing: 4px;    
+                color: #ffffff; 
+                text-shadow: 2px 2px #000; 
+              }
+        select.form-select {
+                font-size: 1.2rem; 
+                padding: 0.5rem 1rem; 
+                border: 1px solid #ced4da;
+                border-radius: 0.25rem; 
+                color: #555;
+                background-color: #e0b892; 
+                box-shadow: none; 
+        }
+        select.form-select option:hover  {
+                background-color: #f0596a; 
+                color: #f0596a; 
+              }
+              
+              #logo {text-decoration: none;}
+    </style>
+</head>
+<body style="background-color:peachpuff;">
+<div
+        class="d-flex flex-column bd-highlight justify-content-center align-items-center w-75 ms-5"
+>
+    <a href = "/" id="logo"><h1 class="text-center mb-3 my-5">Clothes Warehouse</h1></a>
+    <form method="post" th:object="${brand}">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <div th:if="${#fields.hasErrors()}">
+            <span> Please correct the problems below and resubmit. </span>
+        </div>
+        <div class="mb-3">
+            <label for="brandName" class="form-label">Product name: </label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="brandName"
+                    th:field="*{name}"
+                    aria-describedby="brandHelp"
+            />
+            <div id="brandHelp" class="form-text">
+                Product name
+            </div>
+            <span
+                    class="validationError"
+                    th:if="${#fields.hasErrors('name')}"
+                    th:errors="*{name}"
+            >
+            Name error
+          </span>
+        </div>
+        <div class="mb-3">
+            <label for="yearOfCreation" class="form-label">Year of Creation: </label>
+            <input
+                    type="number"
+                    th:field="*{yearOfCreation}"
+                    class="form-control"
+                    id="yearOfCreation"
+            />
+            <div id="yearHelp" class="form-text">
+                year of creation should be more than 2021
+            </div>
+            <span
+                    class="validationError"
+                    th:if="${#fields.hasErrors('yearOfCreation')}"
+                    th:errors="*{getYearOfCreation}"
+            >
+            Name error
+          </span>
+        </div>
+        <div class="mb-3">
+            <label for="health" class="form-label">Price </label>
+            <input
+                    type="number"
+                    th:field="*{price}"
+                    class="form-control"
+                    id="health"
+            />
+            <div id="PriceHelp" class="form-text">
+                price should be more than 1000
+            </div>
+            <span
+                    class="validationError"
+                    th:if="${#fields.hasErrors('price')}"
+                    th:errors="*{price}"
+            >Name Error
+          </span>
+        </div>
+        <div class="mb-3">
+            <label for="resistance" class="form-label">Rate </label>
+            <input
+                    type="number"
+                    step="0.1"
+                    th:field="*{rate}"
+                    class="form-control"
+                    id="resistance"
+            />
+            <span
+                    class="validationError"
+                    th:if="${#fields.hasErrors('rate')}"
+                    th:errors="*{rate}"
+            >Resistance Error
+          </span>
+        </div>
+        <select
+                th:field="*{brandNameFrom}"
+                class="form-select mt-5 mb-5"
+                aria-label="Brand selection"
+        >
+            <option
+                    th:each="brandName: ${brandnames}"
+                    th:value="${brandName}"
+                    th:text="${brandName.title}"
+            />
+        </select>
+
+        <button  class="btn btn-light">Create Brand List</button>
+    </form>
+    <form method="post" th:action="@{/design/deleteAllBrands}">
+        <button class="btn btn-danger mt-5">Delete All Brands</button>
+    </form>
+</div>
+</body>
+</html>

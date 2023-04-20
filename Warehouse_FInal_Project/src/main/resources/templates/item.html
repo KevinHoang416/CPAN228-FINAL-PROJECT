@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<style>
+    body {
+        background-color: blueviolet;
+    }
+    h1.mb-3 {
+        height: 60px;
+        font-family: 'Montserrat', sans-serif; 
+        font-weight: bold; 
+        text-transform: uppercase; 
+        letter-spacing: 4px; 
+        color: #fff; 
+        text-shadow: 2px 2px #000; 
+      }
+#logo {text-decoration: none;}
+h1,th{color: white}
+</style>
+<body>
+    <a href = "/" id="logo"><h1 class="text-center mb-3 my-5">Clothes Warehouse</h1></a>
+<div class="container mt-5">
+    <h1>Distribution Centre Locations</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="distribution : ${distributions}">
+            <td th:text="${distribution.id}"></td>
+            <td th:text="${distribution.name}"></td>
+            <td th:text="${distribution.latitude}"></td>
+            <td th:text="${distribution.longitude}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
