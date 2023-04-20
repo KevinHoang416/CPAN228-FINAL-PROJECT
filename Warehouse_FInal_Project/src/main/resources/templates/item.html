@@ -19,28 +19,41 @@
         text-shadow: 2px 2px #000; 
       }
 #logo {text-decoration: none;}
-h1,th{color: white}
+h1,h5,th{color: white}
 </style>
 <body>
     <a href = "/" id="logo"><h1 class="text-center mb-3 my-5">Clothes Warehouse</h1></a>
 <div class="container mt-5">
-    <h1>Distribution Centre Locations</h1>
+    <h1>Distribution Centre Locations</h1>   
+     <H5>Product name:</H5>
+
     <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="distribution : ${distributions}">
-            <td th:text="${distribution.id}"></td>
-            <td th:text="${distribution.name}"></td>
-            <td th:text="${distribution.latitude}"></td>
-            <td th:text="${distribution.longitude}"></td>
-        </tr>
+        <form method="get" th:object="${brand}" th:action="@{/distributions}">
+            <div class="mb-3">
+                <label for="brandName" class="form-label"> </label>
+                <!--By using th:field we "bind" brand model java fields to html input that we will provide-->
+                <input
+                        type="text"
+                        class="form-control"
+                        id="brandName"
+                        th:field="*{name}"
+                        aria-describedby="brandHelp"
+                />
+                <select
+                        th:field="*{brandNameFrom}"
+                        class="form-select mt-5 mb-5"
+                        aria-label="Anime selection"
+                >
+                    <option
+                            th:each="brandName: ${brandnames}"
+                            th:value="${brandName}"
+                            th:text="${brandName.title}"
+                    />
+                </select>
+            
+                <button  class="btn btn-dark">List Distribution centre</button>
+                </form>
+    </table>
 
         </tbody>
     </table>
